@@ -1,0 +1,1054 @@
+<title>Lam 식각 이상탐지 발표 대비서</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --bg:#f6f4ef;
+  --surface:#ffffff;
+  --raised:#fdfcf9;
+  --ink:#1b1e26;
+  --muted:#5b6472;
+  --faint:#8b93a1;
+  --hair:#e4dfd3;
+  --hair-strong:#d3ccbc;
+  --accent:#0d6e78;
+  --accent-ink:#0a565e;
+  --accent-bg:#e7f0f0;
+  --fact:#2f7d52;
+  --fact-bg:#e7f1ea;
+  --interp:#0d6e78;
+  --hypo:#6b4d9e;
+  --hypo-bg:#ede7f4;
+  --nogo:#b23b34;
+  --nogo-bg:#f5e6e4;
+  --num:#a8730a;
+  --shadow:0 1px 2px rgba(27,30,38,.04),0 6px 20px rgba(27,30,38,.06);
+}
+:root:not([data-theme="light"]){
+  @media (prefers-color-scheme:dark){
+    --bg:#14171d;
+    --surface:#1b1f27;
+    --raised:#1f242d;
+    --ink:#e8e6df;
+    --muted:#9aa2b1;
+    --faint:#767e8d;
+    --hair:#2c323d;
+    --hair-strong:#3a414d;
+    --accent:#4bb3bf;
+    --accent-ink:#7fcdd6;
+    --accent-bg:#16302f;
+    --fact:#6fbf90;
+    --fact-bg:#16302a;
+    --interp:#4bb3bf;
+    --hypo:#a98fd6;
+    --hypo-bg:#241d33;
+    --nogo:#e0776f;
+    --nogo-bg:#2f1f1e;
+    --num:#d9a441;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171d;
+  --surface:#1b1f27;
+  --raised:#1f242d;
+  --ink:#e8e6df;
+  --muted:#9aa2b1;
+  --faint:#767e8d;
+  --hair:#2c323d;
+  --hair-strong:#3a414d;
+  --accent:#4bb3bf;
+  --accent-ink:#7fcdd6;
+  --accent-bg:#16302f;
+  --fact:#6fbf90;
+  --fact-bg:#16302a;
+  --interp:#4bb3bf;
+  --hypo:#a98fd6;
+  --hypo-bg:#241d33;
+  --nogo:#e0776f;
+  --nogo-bg:#2f1f1e;
+  --num:#d9a441;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  font-size:17px;
+  line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 clamp(16px,4vw,48px);
+  display:grid;
+  grid-template-columns:1fr;
+  gap:0;
+}
+@media (min-width:1000px){
+  .wrap{grid-template-columns:232px minmax(0,1fr);gap:56px;align-items:start}
+}
+
+/* ---- typography ---- */
+h1,h2,h3,h4,.sans{font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h2{
+  font-size:clamp(1.4rem,2.6vw,1.85rem);
+  font-weight:700;
+  line-height:1.25;
+  letter-spacing:-.01em;
+  text-wrap:balance;
+  margin:0 0 .2em;
+  color:var(--ink);
+}
+h3{
+  font-size:1.2rem;
+  font-weight:600;
+  line-height:1.35;
+  text-wrap:balance;
+  margin:2.4em 0 .6em;
+  color:var(--ink);
+}
+h4{
+  font-size:1rem;
+  font-weight:600;
+  margin:1.8em 0 .4em;
+  color:var(--ink);
+}
+p{margin:0 0 1.05em}
+a{color:var(--accent-ink);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+strong{font-weight:600;color:var(--ink)}
+em{color:var(--muted)}
+code,kbd,.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em}
+code{background:var(--accent-bg);color:var(--accent-ink);padding:.08em .38em;border-radius:4px}
+.num{font-family:"IBM Plex Mono",monospace;color:var(--num);font-weight:600;font-variant-numeric:tabular-nums}
+
+/* ---- header ---- */
+header.top{
+  grid-column:1/-1;
+  padding:clamp(40px,7vw,80px) 0 clamp(28px,4vw,44px);
+  border-bottom:1px solid var(--hair);
+  margin-bottom:clamp(28px,4vw,44px);
+}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:.72rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:0 0 1.1em;
+  font-weight:500;
+}
+header.top h1{
+  font-size:clamp(1.9rem,5vw,3rem);
+  font-weight:700;
+  line-height:1.12;
+  letter-spacing:-.02em;
+  margin:0 0 .5em;
+  text-wrap:balance;
+}
+header.top .lede{
+  font-size:clamp(1rem,1.6vw,1.15rem);
+  color:var(--muted);
+  max-width:60ch;
+  margin:0;
+}
+.metaline{
+  margin-top:1.8em;
+  font-family:"IBM Plex Sans",sans-serif;
+  font-size:.82rem;
+  color:var(--faint);
+  display:flex;flex-wrap:wrap;gap:.5em 1.4em;
+}
+.metaline span::before{content:"▪";color:var(--accent);margin-right:.5em}
+
+/* ---- nav ---- */
+nav.toc{
+  font-family:"IBM Plex Sans",sans-serif;
+  font-size:.82rem;
+  line-height:1.5;
+}
+@media (min-width:1000px){
+  nav.toc{position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;padding-right:8px}
+}
+nav.toc .navhead{
+  text-transform:uppercase;letter-spacing:.13em;font-size:.68rem;
+  color:var(--faint);margin:0 0 .9em;font-weight:600;
+}
+nav.toc ol{list-style:none;margin:0 0 1.6em;padding:0;counter-reset:nv}
+nav.toc li{counter-increment:nv;margin:.15em 0}
+nav.toc a{
+  display:block;padding:.32em 0 .32em 2.1em;position:relative;
+  color:var(--muted);text-decoration:none;border-radius:5px;
+}
+nav.toc a::before{
+  content:counter(nv,decimal-leading-zero);
+  position:absolute;left:0;top:.32em;
+  font-family:"IBM Plex Mono",monospace;font-size:.72em;color:var(--faint);
+}
+nav.toc a:hover{color:var(--accent-ink)}
+nav.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+main{grid-column:auto;min-width:0}
+@media (max-width:999px){
+  nav.toc{grid-column:1/-1;border:1px solid var(--hair);border-radius:12px;padding:20px;margin-bottom:32px;background:var(--raised)}
+  nav.toc ol{margin-bottom:.6em}
+}
+
+section{
+  padding-top:18px;
+  margin-bottom:clamp(40px,6vw,68px);
+  border-top:2px solid var(--ink);
+}
+section:first-of-type{border-top:none}
+.sectnum{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);font-weight:500;display:block;margin-bottom:.6em;
+}
+.reading{max-width:68ch}
+
+/* ---- callouts ---- */
+.box{
+  border:1px solid var(--hair);
+  background:var(--raised);
+  border-radius:12px;
+  padding:20px 22px;
+  margin:1.5em 0;
+  box-shadow:var(--shadow);
+}
+.box>:first-child{margin-top:0}
+.box>:last-child{margin-bottom:0}
+.box .boxlabel{
+  font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:.8rem;
+  letter-spacing:.04em;text-transform:uppercase;
+  display:flex;align-items:center;gap:.55em;margin-bottom:.7em;
+}
+.box .boxlabel::before{content:"";width:9px;height:9px;border-radius:50%;flex:none}
+
+.tier{border-left:3px solid var(--hair-strong);padding:14px 18px;margin:1.1em 0;border-radius:0 8px 8px 0;background:var(--raised)}
+.tier .t{font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35em;display:block}
+.tier p{margin:.2em 0}
+.tier.fact{border-color:var(--fact);background:var(--fact-bg)}
+.tier.fact .t{color:var(--fact)}
+.tier.interp{border-color:var(--interp);background:var(--accent-bg)}
+.tier.interp .t{color:var(--accent-ink)}
+.tier.hypo{border-color:var(--hypo);background:var(--hypo-bg)}
+.tier.hypo .t{color:var(--hypo)}
+.tier.nogo{border-color:var(--nogo);background:var(--nogo-bg)}
+.tier.nogo .t{color:var(--nogo)}
+
+.fix{border:1px solid var(--nogo);background:var(--nogo-bg);border-radius:12px;padding:18px 20px;margin:1.6em 0}
+.fix .boxlabel{color:var(--nogo)}
+.fix .boxlabel::before{background:var(--nogo)}
+.ok{border:1px solid var(--fact);background:var(--fact-bg);border-radius:12px;padding:18px 20px;margin:1.6em 0}
+.ok .boxlabel{color:var(--fact)}
+.ok .boxlabel::before{background:var(--fact)}
+
+.script{
+  border:1px dashed var(--hair-strong);
+  background:var(--surface);
+  border-radius:12px;padding:18px 20px;margin:1.4em 0;
+  font-family:"IBM Plex Serif",serif;
+}
+.script .boxlabel{color:var(--accent);}
+.script .boxlabel::before{background:var(--accent)}
+.script p{font-size:1.02rem}
+
+.defn{margin:1.4em 0}
+.defn dt{font-family:"IBM Plex Sans",sans-serif;font-weight:600;color:var(--ink);margin-top:1.1em;font-size:1.02rem}
+.defn dd{margin:.25em 0 0;padding-left:1.1em;border-left:2px solid var(--hair)}
+.defn dd.q{color:var(--muted)}
+.defn dd.a{color:var(--ink)}
+.defn dd.a::before{content:"→ ";color:var(--accent);font-weight:700}
+
+/* ---- table ---- */
+.tablewrap{overflow-x:auto;margin:1.5em 0;border:1px solid var(--hair);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-family:"IBM Plex Sans",sans-serif;font-size:.88rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--hair);vertical-align:top}
+th{background:var(--raised);font-weight:600;color:var(--ink);white-space:nowrap;font-size:.8rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:none}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr:hover{background:var(--accent-bg)}
+caption{caption-side:bottom;text-align:left;color:var(--faint);font-family:"IBM Plex Sans",sans-serif;font-size:.78rem;padding:8px 4px 0}
+
+/* flow diagram */
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin:1.6em 0;font-family:"IBM Plex Sans",sans-serif;font-size:.82rem}
+.flow .step{background:var(--surface);border:1px solid var(--hair-strong);border-radius:8px;padding:8px 12px;position:relative;flex:1 1 auto;min-width:120px}
+.flow .step b{display:block;font-weight:600;font-size:.86rem;margin-bottom:.1em}
+.flow .step span{color:var(--muted);font-size:.78rem}
+.flow .step.hl{border-color:var(--accent);background:var(--accent-bg)}
+
+ul.tight,ol.tight{margin:1em 0;padding-left:1.3em}
+ul.tight li,ol.tight li{margin:.4em 0}
+ul.plain{list-style:none;padding-left:0}
+ul.plain li{padding-left:1.4em;position:relative;margin:.5em 0}
+ul.plain li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+
+.kbd-card{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:16px 18px;margin:1em 0}
+.kbd-card h4{margin:0 0 .5em;color:var(--accent-ink)}
+.kbd-card .row{font-size:.92rem;margin:.3em 0}
+.kbd-card .row b{font-family:"IBM Plex Sans",sans-serif}
+
+.pill{display:inline-block;font-family:"IBM Plex Sans",sans-serif;font-size:.72rem;font-weight:600;padding:.15em .6em;border-radius:999px;letter-spacing:.02em;vertical-align:middle}
+.pill.f{background:var(--nogo-bg);color:var(--nogo)}
+.pill.p{background:var(--fact-bg);color:var(--fact)}
+
+hr{border:none;border-top:1px solid var(--hair);margin:2.4em 0}
+
+.footnote{font-size:.82rem;color:var(--faint);font-family:"IBM Plex Sans",sans-serif}
+
+details.qa{border:1px solid var(--hair);border-radius:10px;margin:.7em 0;background:var(--raised);overflow:hidden}
+details.qa summary{
+  cursor:pointer;padding:13px 16px;font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:.95rem;
+  list-style:none;display:flex;gap:.7em;align-items:flex-start;color:var(--ink);
+}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::before{content:"Q";font-family:"IBM Plex Mono",monospace;color:var(--accent);font-weight:700;flex:none}
+details.qa[open] summary{border-bottom:1px solid var(--hair)}
+details.qa .ans{padding:14px 16px 16px;font-size:.96rem}
+details.qa .ans p:first-child{margin-top:0}
+details.qa .ans::before{content:"모범 답변";font-family:"IBM Plex Sans",sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:.5em}
+.qgroup{font-family:"IBM Plex Sans",sans-serif;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:1.8em 0 .6em}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+
+.big-num{display:flex;gap:20px;align-items:baseline;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--hair)}
+.big-num:last-child{border-bottom:none}
+.big-num .v{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:1.5rem;color:var(--num);flex:none;min-width:5.5ch;font-variant-numeric:tabular-nums}
+.big-num .d{font-size:.95rem}
+.big-num .d b{font-family:"IBM Plex Sans",sans-serif;display:block}
+.big-num .d span{color:var(--muted);font-size:.88rem}
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">발표 대비 · 학습 가이드</p>
+  <h1>Lam 식각 장비 이상탐지 분석<br>내 말로 설명하기</h1>
+  <p class="lede">
+    <code>project_lam.ipynb</code>에서 한 분석을, 노트북을 안 보고도
+    <strong>왜 했고 · 무엇을 뜻하고 · 어디까지 말할 수 있는지</strong> 설명할 수 있게 정리한 문서.
+    개인 정리 자료(Personal&nbsp;Notes)·노트북·원본 데이터를 서로 대조해서 검증했고,
+    맞은 부분과 고쳐야 할 부분을 표시해 뒀다.
+  </p>
+  <div class="metaline">
+    <span>데이터: LAM TCP 9600 금속식각 12,829행 × 23열</span>
+    <span>웨이퍼 129개 (정상 108 · 결함 21)</span>
+    <span>분석 스텝: 식각 Step&nbsp;4·5</span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="목차">
+  <p class="navhead">이 문서의 흐름</p>
+  <ol>
+    <li><a href="#big">1분 큰 그림 — 목적·대상·흐름</a></li>
+    <li><a href="#data">데이터의 정체 (꼭 알고 가야 함)</a></li>
+    <li><a href="#walk">분석 단계별 해설 (Step 1→11)</a></li>
+    <li><a href="#stats">통계·기법 자세히 뜯어보기</a></li>
+    <li><a href="#graphs">그래프 읽는 법</a></li>
+    <li><a href="#fab">반도체 공정 관점 해석</a></li>
+    <li><a href="#valid">분석 방법이 타당했나</a></li>
+    <li><a href="#insight">핵심 인사이트 정리표</a></li>
+    <li><a href="#present">발표용 — 3분 요약·멘트·예상 질문</a></li>
+    <li><a href="#cram">이것만은 알고 발표하기</a></li>
+  </ol>
+  <p class="navhead">색깔 표시 규칙</p>
+  <ul class="plain" style="font-size:.78rem;color:var(--muted)">
+    <li><span style="color:var(--fact);font-weight:600">데이터로 확인된 사실</span></li>
+    <li><span style="color:var(--accent-ink);font-weight:600">합리적 해석</span></li>
+    <li><span style="color:var(--hypo);font-weight:600">추가 검증이 필요한 가설</span></li>
+    <li><span style="color:var(--nogo);font-weight:600">지금 데이터로 주장 불가</span></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- ============ 1. BIG PICTURE ============ -->
+<section id="big">
+  <span class="sectnum">01 — 큰 그림</span>
+  <h2>1분 안에 말하는 전체 그림</h2>
+  <div class="reading">
+
+  <h3>1) 이 분석으로 무엇을 알아내려 했나</h3>
+  <p>
+    <strong>한 문장:</strong> 식각 공정이 진행되는 동안 장비가 남긴 센서 기록만 보고,
+    <em>정상 공정에서 벗어난 웨이퍼</em>를 골라낼 수 있는지, 그리고 그러려면 어떤 방법이 제일 나은지를 찾는 것.
+  </p>
+  <p>
+    현장 언어로: 웨이퍼 한 장의 식각이 끝났을 때, 계측실에 보내기 전에
+    <strong>"이 웨이퍼, 다음 공정으로 넘겨도 되나?"</strong>를 센서 데이터로 미리 판단하고 싶다.
+    판단이 늦으면 이상이 있는 웨이퍼가 뒷공정·패키징·고객사까지 흘러가 시간·비용·신뢰도를 다 잃는다.
+  </p>
+
+  <h3>2) 분석 대상 — 데이터 구성</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>항목</th><th>내용</th><th>이게 왜 중요한가</th></tr></thead>
+    <tbody>
+      <tr><td>크기</td><td class="n">12,829행 × 23열</td><td>1행 = 웨이퍼 1장의 <strong>한 순간(시점)</strong> 측정. 한 웨이퍼가 수십~수백 행.</td></tr>
+      <tr><td>식별 열</td><td><code>wafer_id</code>, <code>Time</code>, <code>Step Number</code></td><td>어느 웨이퍼의 · 몇 초 시점의 · 어느 식각 스텝인지</td></tr>
+      <tr><td>센서 열 (공정 파라미터/계측값)</td><td class="n">19개</td><td>가스유량(BCl3·Cl2), 압력, He 척압력, RF·TCP 파워/반사파워/매칭 위치(Tuner·Load)/임피던스/위상오차, 엔드포인트 광신호(Endpt&nbsp;A), 배기밸브(Vat&nbsp;Valve)</td></tr>
+      <tr><td>결과 열 (Target)</td><td><code>result</code> = Pass / Fail</td><td>웨이퍼 단위 라벨. <strong>같은 웨이퍼의 모든 행은 라벨이 같다.</strong></td></tr>
+      <tr><td>불량(Fail) 비율</td><td class="n">행 기준 16.05% · 웨이퍼 기준 21/129 = 16.3%</td><td>한쪽으로 치우친 <strong>불균형 데이터</strong> — 정확도(accuracy)가 착시를 일으킴</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>3) 전체 분석 흐름 — 각 단계가 왜 필요한가</h3>
+  <div class="flow">
+    <div class="step"><b>① 문제 정의</b><span>무엇을 · 누가 · 언제 판단하나 — 안 정하면 방향 없이 모델만 돌림</span></div>
+    <div class="step"><b>② 데이터 확인</b><span>크기·라벨 비율·불균형 파악 — 평가지표를 뭘 봐야 할지 여기서 결정됨</span></div>
+    <div class="step"><b>③ 전처리</b><span>불가능한 값(−1) 교정, 스텝 4/5 분리 — 서로 다른 공정이 섞이면 원인 판별 불가</span></div>
+    <div class="step"><b>④ 분석 단위 정하기</b><span>시점(행) 단위 vs 웨이퍼 단위 — 라벨이 웨이퍼 단위라 입력도 맞춰야 신호가 산다</span></div>
+    <div class="step hl"><b>⑤ 이상 탐지</b><span>모델(로지스틱 회귀)과 관리도(3σ)로 Fail 웨이퍼를 실제로 잡아봄</span></div>
+    <div class="step hl"><b>⑥ 원인 후보 탐색</b><span>Pass/Fail을 가장 크게 가르는 센서가 무엇인지 (효과크기 순위)</span></div>
+    <div class="step"><b>⑦ 통계적 검증</b><span>차이가 우연 수준인지 — 효과크기, 3σ 이탈 건수로 확인</span></div>
+    <div class="step"><b>⑧ 공정 해석</b><span>왜 그 센서인가 — RF 매칭계 흔들림 = 압력/플라즈마 이상의 흔적</span></div>
+    <div class="step"><b>⑨ 결론</b><span>어디까지 주장 가능한지 · 무엇을 못 봤는지</span></div>
+  </div>
+  <p class="footnote">
+    노트북의 Step 1~11이 이 흐름을 따라간다. Step 6~8이 "행 단위 모델 → 실패 → 웨이퍼 단위 압축 → 개선"의 시행착오,
+    Step 9~11이 최종 정리와 추천 전략이다.
+  </p>
+  </div>
+</section>
+
+<!-- ============ 2. DATA IDENTITY ============ -->
+<section id="data">
+  <span class="sectnum">02 — 데이터의 정체</span>
+  <h2>이 데이터가 정확히 무엇인지 — 발표 방어의 핵심</h2>
+  <div class="reading">
+  <p>
+    개인 정리 자료에 이미 맞게 적혀 있다: 이 데이터는
+    <strong>LAM TCP 9600 알루미늄 금속식각 장비에서 실제로 측정된 공개 벤치마크</strong>이고,
+    <em>3번의 실험에서 얻은 정상 웨이퍼 108장</em>과
+    <em>공정 파라미터를 일부러 setpoint에서 틀어놓은 웨이퍼 21장</em>을 합친 것이다.
+    두 세트를 합친 뒤 <code>result</code> 열에 Pass/Fail을 붙였다.
+  </p>
+
+  <div class="tier fact">
+    <span class="t">데이터로 확인된 사실</span>
+    <p>
+      <code>portfolio/lam_etch.csv</code>(원본의 원본)에는 <code>project_lam</code>이 쓴 파일에서 빠진
+      <code>fault_type</code> 열이 있다. Fail 21장 각각에 <strong>어떤 변수를 얼마나 틀었는지</strong>가 적혀 있다:
+    </p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>틀어놓은 변수</th><th class="n">웨이퍼 수</th><th>구체적 오프셋</th></tr></thead>
+      <tbody>
+        <tr><td>TCP 소스 파워 (상부, 플라즈마 밀도)</td><td class="n">7</td><td>+10, +20, +30, +50, −15, −20 등</td></tr>
+        <tr><td>RF 바이어스 파워 (하부, 이온에너지)</td><td class="n">4</td><td>+8, +10, −12(2장)</td></tr>
+        <tr><td>챔버 압력</td><td class="n">5</td><td>+1, +2, +3, −2 mTorr</td></tr>
+        <tr><td>Cl₂ 유량</td><td class="n">3</td><td>+5, −5, −10 sccm</td></tr>
+        <tr><td>BCl₃ 유량</td><td class="n">3</td><td>+5, +10, −5 sccm</td></tr>
+        <tr><td>He 척 압력 (웨이퍼 냉각)</td><td class="n">1</td><td>He Chuck</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="fix">
+    <p class="boxlabel">표현 정정 필요</p>
+    <p><strong>노트북 Step 1의 표현:</strong> "검사 전에 불량 가능성이 높은 <em>제품</em>을 먼저 골라낸다"</p>
+    <p><strong>문제점:</strong> <code>result=Fail</code>은 전기검사·계측 불합격이 아니다. <strong>공정 엔지니어가 레시피 값 하나를 일부러 틀어서 만든 통제된 결함 런</strong>이다. "제품 불량 예측"이라고 말하면 데이터 성격을 잘못 설명하는 것이 된다.</p>
+    <p><strong>데이터가 실제로 보여주는 것:</strong> 정상 상태의 센서 패턴 vs 파라미터가 틀어졌을 때의 센서 패턴. 즉 이건 <strong>FDC(Fault Detection &amp; Classification, 설비·공정 이상탐지)</strong> 문제다.</p>
+    <p><strong>발표에서 안전한 표현:</strong> <em>"이 데이터는 LAM 9600 식각 장비의 공개 이상탐지 벤치마크입니다. 정상 웨이퍼 108장과, TCP 파워·RF 파워·압력·가스 유량 중 하나를 일부러 규격에서 벗어나게 설정한 웨이퍼 21장으로 되어 있습니다. 그래서 제 문제는 '제품 불량 예측'이 아니라 '센서 신호만으로 공정이 규격을 벗어난 웨이퍼를 탐지'하는 것입니다."</em></p>
+  </div>
+
+  <div class="tier interp">
+    <span class="t">이게 왜 인과관계 논의에 중요한가</span>
+    <p>
+      Fail 웨이퍼는 <strong>정의상 원인이 있다</strong> — 누군가 그 knob을 틀었다.
+      하지만 네가 분석에 쓴 파일(<code>lam_etch_modify.csv</code>)에는 <code>fault_type</code>이 없으므로,
+      <strong>네 분석 안에서는 여전히 "어떤 센서가 Fail과 같이 움직인다"까지만</strong> 말할 수 있다.
+      "RF Load 산포가 크면 그게 불량의 원인"이라고 하면 논리적 비약이다.
+      (아래 <a href="#fab">6장</a>에서 <code>fault_type</code>과 대조한 결과를 따로 정리 — 이건 발표 <em>후</em> 질문 대비용이지, 네가 노트북에서 한 분석은 아니다.)
+    </p>
+  </div>
+
+  <div class="fix">
+    <p class="boxlabel">숫자 구분해서 말하기</p>
+    <p>
+      Step 2에 "불합격 2,059건 (16.05%)"이라고 적혀 있는데 이건 <strong>행(시점) 기준</strong>이다.
+      실제 분석 단위는 <strong>웨이퍼</strong>이고, 웨이퍼 기준으로는 <span class="num">129</span>개 중 <span class="num">21</span>개(<span class="num">16.3%</span>)가 Fail이다.
+      발표에서 baseline("전부 Pass로 찍기")을 말할 때는 웨이퍼 기준 <span class="num">83.7%</span>를 쓰면 된다.
+    </p>
+  </div>
+  </div>
+</section>
+
+<!-- ============ 3. WALKTHROUGH ============ -->
+<section id="walk">
+  <span class="sectnum">03 — 단계별 해설</span>
+  <h2>노트북을 처음부터 끝까지 (각 단계: 무엇을·왜·어떻게·결과·의미·다음 연결)</h2>
+  <div class="reading">
+
+  <h3>Step 1~3 · 문제 정의서와 한계 (실습 16)</h3>
+  <p><strong>① 무엇을 했나</strong> — 코드 없이, "누가·무엇을·언제 판단하나"와 "이 데이터로 말할 수 없는 것"을 표로 먼저 적었다.</p>
+  <p><strong>② 왜 했나</strong> — 데이터를 받으면 바로 모델부터 돌리기 쉬운데, 그러면 "이 결과를 현장에서 누가 어떻게 쓰나"가 비어서 실무적으로 의미 없는 분석이 된다. 문제를 먼저 못 박아야 뒤 단계의 선택(평가지표·분석 단위)이 정해진다.</p>
+  <p><strong>⑤ 결과</strong> — 스스로 적어둔 한계 3가지가 그대로 발표에 쓸 만하다:</p>
+  <ul class="tight">
+    <li><strong>상관관계 ≠ 인과관계</strong> — 특정 센서값이 높을 때 Fail이 많아도, 그게 원인이라 단정 못 한다.</li>
+    <li><strong>불균형이 정확도를 착시로 만든다</strong> — Fail 16%라 "전부 Pass" 찍어도 정확도 84%.</li>
+    <li><strong>Step 4·5 구간만 담겼다</strong> — 식각 공정의 다른 스텝에서 벌어지는 이상은 이 데이터로 못 본다.</li>
+  </ul>
+  <div class="ok">
+    <p class="boxlabel">해석 타당</p>
+    <p>이 세 한계는 정확하다. <strong>발표에서 먼저 밝히면</strong> "한계를 모르고 분석했다"는 지적을 미리 막을 수 있다. 특히 첫 번째(상관≠인과)는 이 분석 전체를 관통하는 방어선이다.</p>
+  </div>
+
+  <h3>Step (16-2, 16-3) · 전처리: 이상값 교정과 스텝 분리</h3>
+  <p><strong>① 무엇을</strong> — (a) 결측치·상수열 확인 → 없음. (b) <code>TCP Rfl Pwr</code>(TCP 반사전력)에 <span class="num">−1</span>이 딱 1건 있는 걸 발견, <span class="num">0</span>으로 고쳐 <code>lam_etch_modify_2.csv</code>로 저장. (c) <code>Step Number</code> 4와 5를 각각 별도 CSV로 분리(<code>lam_etch_step4.csv</code> 6,025행 / <code>lam_etch_step5.csv</code> 6,804행).</p>
+  <p><strong>② 왜</strong></p>
+  <ul class="tight">
+    <li><strong>−1 교정:</strong> 반사전력은 "챔버로 못 들어가고 발생기로 되돌아온 전력"이라 물리적으로 음수가 불가능하다. 1건뿐이라 계측 노이즈로 보고 0으로. (원본은 안 건드리고 새 파일로 저장 — 재현성 확보)</li>
+    <li><strong>스텝 분리:</strong> Step 4(Al 주식각)와 Step 5(TiN·산화막 오버에치)는 <strong>공정 조건 자체가 다르다</strong>. BCl3 유량·압력 평균이 스텝마다 다르다. 섞어서 학습시키면 모델이 "스텝이 달라서 나는 차이"와 "결함이라서 나는 차이"를 구별 못 한다. 분리 후 상수가 된 <code>Step Number</code> 열은 삭제, <code>wafer_id</code>는 나중에 웨이퍼 단위로 되돌리려고 남겨둠.</li>
+  </ul>
+  <p><strong>⑤ 결과</strong> — 6,025 + 6,804 = 12,829 (원본과 일치, 행 손실 없음). Step 4는 웨이퍼 129개, Step 5는 128개(<code>l3125.txm</code> 1장이 Step 5 기록 없음 — 그 웨이퍼는 Pass).</p>
+  <p><strong>⑦ 다음 연결</strong> — 이제 스텝별로 "웨이퍼 1장이 어떤 경향을 보였나"를 요약할 준비가 됐다.</p>
+
+  <h3>Step 4~6 (실습 17~18) · 행 단위 모델 — 그리고 그 실패</h3>
+  <p><strong>① 무엇을</strong> — Step 4 데이터로: 입력 센서 19개 선정 → <code>result=='Fail'</code>이면 label 1 → <strong>웨이퍼 단위로</strong> 8:2 학습/시험 분할(같은 웨이퍼 행이 양쪽에 안 섞이게) → 표준화 → 로지스틱 회귀(일반, 그리고 <code>class_weight='balanced'</code>) 학습.</p>
+  <p><strong>③ 어떻게</strong> — <code>train_test_split</code>을 <strong>웨이퍼 ID 목록</strong>에 먼저 적용(<code>stratify</code>로 양쪽 Fail 비율 유지), 그 다음 그 웨이퍼에 속한 행을 통째로 배정. <code>StandardScaler</code>는 학습용에만 <code>fit</code>, 시험용엔 <code>transform</code>만.</p>
+  <p><strong>⑤ 결과 (Step 4)</strong></p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>모델</th><th class="n">정확도</th><th class="n">지목</th><th class="n">그중 진짜</th><th class="n">정밀도</th><th class="n">재현율</th><th class="n">F1</th></tr></thead>
+    <tbody>
+      <tr><td>기준(전부 Pass)</td><td class="n">0.844</td><td class="n">0</td><td class="n">0</td><td class="n">—</td><td class="n">0</td><td class="n">0</td></tr>
+      <tr><td>로지스틱 일반</td><td class="n">0.844</td><td class="n">1</td><td class="n">0</td><td class="n">0.00</td><td class="n">0.00</td><td class="n">0.00</td></tr>
+      <tr><td>로지스틱 balanced</td><td class="n">0.526</td><td class="n">427</td><td class="n">17</td><td class="n">0.040</td><td class="n">0.089</td><td class="n">0.055</td></tr>
+    </tbody>
+    <caption>시험용 행 1,234개 중 실제 Fail 192행. Step 5도 거의 동일 (F1 0~0.08).</caption>
+  </table>
+  </div>
+  <p><strong>⑥ 그래서 무엇을 알 수 있나</strong> — 행 단위 모델은 <strong>사실상 못 쓴다</strong>. 일반은 Fail을 하나도 못 잡고(재현율 0), balanced는 재현율을 8.9%까지 올리는 대신 정확도가 0.53으로 무너지고 오탐이 427건.</p>
+  <p><strong>왜 실패했나 (16-5에서 직접 확인)</strong> — 학습한 로지스틱 모델이 시험용 각 행에 매긴 "Fail 확률"을 뽑아 보니:</p>
+  <ul class="tight">
+    <li>전체 1,234행 평균 Fail 확률 <span class="num">0.124</span></li>
+    <li>그런데 <strong>실제로 Fail인 192행</strong>만 보면 평균 <span class="num">0.055</span> — <strong>오히려 더 낮다</strong></li>
+  </ul>
+  <div class="tier fact">
+    <span class="t">데이터로 확인된 사실</span>
+    <p>한 시점의 원시 센서값과 웨이퍼 단위 라벨 사이에는 뚜렷한 관계가 없다. 라벨은 웨이퍼 전체를 보고 붙은 값인데 입력은 한 순간이라, <strong>신호 대 잡음비가 구조적으로 낮다</strong>. (쉽게: 웨이퍼 한 장의 결함 여부를 "0.7초 시점의 압력 하나"로 맞히려는 것과 같다.)</p>
+  </div>
+  <p><strong>⑦ 다음 연결</strong> — 입력의 단위를 라벨의 단위(웨이퍼)에 맞춰야 한다 → Step 7의 "웨이퍼 단위 압축".</p>
+
+  <h3>Step 7~8 (실습 19) · 웨이퍼 단위로 압축</h3>
+  <p><strong>① 무엇을</strong> — 한 웨이퍼의 수십 개 시점을 센서마다 <strong>평균 1개 + 표준편차 1개</strong>로 요약. 19개 센서 → 38개 피처. 1행 = 1웨이퍼. <code>lam_etch_step4_agg.csv</code>(129행×41열) / <code>step5_agg.csv</code>(128행). 이 압축본으로 로지스틱 회귀 다시.</p>
+  <p><strong>② 왜</strong> — 표본 단위와 라벨 단위가 일치한다. "이 웨이퍼가 <em>전체적으로</em> 어떤 수준이었나(평균)"와 "<em>얼마나 흔들렸나</em>(표준편차)"를 벡터 하나로 표현. 시점 잡음이 평균으로 상쇄돼 신호가 살아날 여지.</p>
+  <p><strong>⑤ 결과</strong></p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>모델</th><th class="n">정확도</th><th class="n">지목</th><th class="n">진짜</th><th class="n">정밀도</th><th class="n">재현율</th><th class="n">F1</th></tr></thead>
+    <tbody>
+      <tr><td>Step 4 · 압축-로지스틱(일반)</td><td class="n">0.846</td><td class="n">2</td><td class="n">1</td><td class="n">0.50</td><td class="n">0.25</td><td class="n">0.33</td></tr>
+      <tr><td>Step 4 · 압축-로지스틱(balanced)</td><td class="n">0.769</td><td class="n">4</td><td class="n">1</td><td class="n">0.25</td><td class="n">0.25</td><td class="n">0.25</td></tr>
+      <tr><td>Step 5 · 압축-로지스틱(balanced)</td><td class="n">0.808</td><td class="n">3</td><td class="n">1</td><td class="n">0.33</td><td class="n">0.25</td><td class="n">0.29</td></tr>
+    </tbody>
+    <caption>시험용 웨이퍼 26개 중 Fail 4개. 행 단위(F1 0~0.08)보다 확실히 개선됐지만 여전히 낮음.</caption>
+  </table>
+  </div>
+  <div class="tier hypo">
+    <span class="t">추가 검증이 필요한 가설</span>
+    <p>Step 4는 <em>일반</em> 로지스틱이, Step 5는 <em>balanced</em>가 더 나았다. 이게 스텝의 본질적 차이인지, 아니면 <strong>시험용 Fail이 4개뿐이라 "1개 더 맞히고 말고"로 순위가 뒤집힌 것</strong>인지는 이 데이터만으로 구별 못 한다. → 발표에서 "설정을 스텝마다 다시 검증해야 한다"로 말하는 게 안전.</p>
+  </div>
+
+  <h3>Step (19-4) · 원인 후보 탐색 — 어떤 센서가 Fail을 가르나</h3>
+  <p><strong>① 무엇을</strong> — 38개 피처 각각에 대해 <strong>(Fail 웨이퍼 평균 − Pass 웨이퍼 평균) ÷ 전체 표준편차</strong>를 계산해 절댓값 순으로 정렬. 이 값이 <strong>효과크기(standardized gap)</strong>.</p>
+  <p><strong>⑤ 결과 — 두 스텝 공통 상위권:</strong></p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>피처</th><th>뜻</th><th class="n">Step 4 효과크기</th><th class="n">Step 5 효과크기</th></tr></thead>
+    <tbody>
+      <tr><td><code>RF Load_std</code></td><td>하부 RF 매칭 네트워크 load 조정값이 런 안에서 흔들린 정도</td><td class="n">0.90 (1위)</td><td class="n">0.74 (1위)</td></tr>
+      <tr><td><code>RF Tuner_std</code></td><td>하부 RF 매칭 tuner 위치가 흔들린 정도</td><td class="n">0.67 (5위)</td><td class="n">0.64 (2위)</td></tr>
+      <tr><td><code>Pressure_std</code></td><td>챔버 압력이 흔들린 정도</td><td class="n">0.88 (2위)</td><td class="n">0.54 (4위)</td></tr>
+      <tr><td><code>BCl3 Flow_mean</code></td><td>BCl₃ 유량 평균 수준</td><td class="n">−0.69 (4위)</td><td class="n">0.54 (3위)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="tier interp">
+    <span class="t">합리적 해석</span>
+    <p>
+      <strong>평균값 자체보다 "그 웨이퍼 안에서 값이 얼마나 흔들렸는지"(표준편차)가 Fail과 더 관련이 크다.</strong>
+      RF Load·RF Tuner는 RF 전원과 플라즈마 사이의 임피던스를 맞추는 매칭 네트워크의 위치값이다.
+      플라즈마 상태가 흔들리면 매칭점을 유지하려고 이 값들이 계속 움직인다.
+      즉 <em>RF 매칭계가 평소보다 심하게 헌팅했다</em> = 플라즈마 부하가 불안정했다는 흔적.
+    </p>
+  </div>
+
+  <h3>Step (19-5) · 시각화 — 박스플롯과 관리도</h3>
+  <p><strong>① 무엇을</strong> — <code>RF Load_std</code>, <code>RF Tuner_std</code>를 Pass/Fail 그룹으로 나눠 박스플롯. 그리고 <code>RF Load_std</code>로 <strong>3σ 관리도</strong>를 그림 — 중심선·관리한계를 <strong>Pass 웨이퍼만으로</strong> 산정하고, 전체 웨이퍼를 그 선에 얹어 벗어난 웨이퍼를 찾음.</p>
+  <p><strong>⑤ 결과</strong></p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>관리도</th><th>UCL 벗어난 웨이퍼</th><th>그중 실제 Fail</th><th>잘못 걸린 Pass (오탐)</th></tr></thead>
+    <tbody>
+      <tr><td>Step 4 · <code>RF Load_std</code></td><td class="n">5</td><td class="n">4 / 21</td><td class="n">1</td></tr>
+      <tr><td>Step 5 · <code>RF Load_std</code></td><td class="n">3</td><td class="n">3 / 21</td><td class="n">0</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="tier fact">
+    <span class="t">데이터로 확인된 사실</span>
+    <p>이 관리도는 <strong>지금까지 만든 어떤 모델보다 오탐이 압도적으로 적다</strong>(0~1건). 잡아내는 비율(재현율 14~19%)은 낮지만, "걸리면 거의 진짜다"(정밀도 높음). 재학습이 필요 없고 웨이퍼가 끝나는 즉시 판정 가능.</p>
+  </div>
+
+  <h3>Step 9~11 · 최종 정리와 추천 전략</h3>
+  <p><strong>Step 10 추천:</strong> ① 1차 조기경보 = <code>RF Load_std</code> 3σ 관리도(빠르고 오탐 적음), ② 보조 = 압축-로지스틱 회귀(19개 센서를 동시에 봐서 관리도가 놓치는 다변량 이상 보완, 계수로 원인 추적).</p>
+  <p><strong>Step 11 3단계 전략:</strong></p>
+  <ul class="tight">
+    <li><strong>① 실시간층</strong> — 공정 중 매 시점 급변 감시 (이번 분석 범위 밖)</li>
+    <li><strong>② 런투런층</strong> — 웨이퍼 완료 즉시 요약값으로 판정 (관리도 + 압축 회귀 병행) ← <strong>이번 분석의 핵심</strong></li>
+    <li><strong>③ 드릴다운층</strong> — Fail로 지목된 웨이퍼만 원본 시계열을 다시 열어 원인 확인</li>
+  </ul>
+  <div class="tier interp">
+    <span class="t">합리적 해석 — 왜 ②번이 정석인가</span>
+    <p>
+      한 웨이퍼는 센서를 47~53번 반복 측정한 <strong>부분군(subgroup)</strong>이다.
+      SPC의 표준 기법 <strong>X̄-S 관리도</strong>가 부분군의 평균은 X̄ 차트, 부분군 안 흔들림은 S 차트로 나눠 보는 것과 정확히 같은 구조.
+      <code>RF Load_std</code> 관리도는 이 <strong>S 차트</strong>에 해당한다.
+      실제 반도체 팹의 FDC도 원시 트레이스가 아니라 트레이스별 요약통계에 SPC를 건다.
+    </p>
+  </div>
+  </div>
+</section>
+
+<!-- ============ 4. STATS ============ -->
+<section id="stats">
+  <span class="sectnum">04 — 통계·기법</span>
+  <h2>등장한 통계·기법을 하나씩 (쉬운 말 → 정확한 용어 → 이 데이터에서의 의미)</h2>
+  <div class="reading">
+
+  <div class="kbd-card">
+    <h4>평균 · 표준편차 (mean · standard deviation)</h4>
+    <p class="row"><b>쉬운 말:</b> 평균은 값들의 한가운데. 표준편차는 값들이 평균 주변에 얼마나 넓게 퍼져 있는지.</p>
+    <p class="row"><b>정확한 용어:</b> 표준편차는 관측값의 산포도(dispersion) 지표. <code>s = √(Σ(xᵢ−x̄)² / (n−1))</code> — <code>xᵢ</code>는 각 관측값, <code>x̄</code>는 평균, <code>n</code>은 개수.</p>
+    <p class="row"><b>이 데이터에서:</b> 우리가 쓴 건 <strong>한 웨이퍼 안에서의(within-wafer) 표준편차</strong>다. <code>RF Load_std</code>가 크다 = 그 웨이퍼가 식각되는 동안 RF 매칭 위치가 평소보다 심하게 왔다갔다 했다. <strong>여기서는 평균보다 이 산포가 더 중요한 신호였다.</strong></p>
+  </div>
+
+  <div class="kbd-card">
+    <h4>불균형 데이터와 정확도 착시 (class imbalance)</h4>
+    <p class="row"><b>쉬운 말:</b> Fail이 드무니까(16%), "무조건 Pass"라고만 답해도 84% 맞는다.</p>
+    <p class="row"><b>정확한 용어:</b> 다수 클래스 비율이 높을 때 accuracy는 소수 클래스 검출력을 반영하지 못한다. → 재현율·정밀도·F1·혼동행렬로 봐야 한다.</p>
+    <p class="row"><b>이 데이터에서:</b> 기준 모델(전부 Pass) 정확도 0.844. 로지스틱 일반도 0.844인데 Fail을 하나도 못 잡았다. <strong>정확도가 같아도 완전히 다른 모델이다.</strong></p>
+  </div>
+
+  <div class="kbd-card">
+    <h4>정밀도 · 재현율 · F1 (precision · recall · F1)</h4>
+    <p class="row"><b>쉬운 말:</b> 재현율 = 실제 Fail 중 내가 잡은 비율. 정밀도 = 내가 Fail이라 지목한 것 중 진짜 비율. F1 = 둘의 조화평균(둘 다 좋아야 높다).</p>
+    <p class="row"><b>정확한 용어:</b> <code>재현율 = TP/(TP+FN)</code>, <code>정밀도 = TP/(TP+FP)</code>, <code>F1 = 2·P·R/(P+R)</code>. TP=잡은 진짜, FN=놓친 Fail, FP=헛경보.</p>
+    <p class="row"><b>이 데이터에서:</b> 놓친 Fail(FN)은 이상 웨이퍼가 뒷공정으로 유출되는 비용, 헛경보(FP)는 멀쩡한 웨이퍼를 세우는 비용. 반도체는 보통 유출 비용이 더 커서 재현율을 중시하지만, 헛경보가 많으면 라인이 못 돈다. 이번 결과는 <strong>재현율이 낮은 대신 정밀도가 높은</strong>(관리도) 쪽으로 정리됐다.</p>
+  </div>
+
+  <div class="kbd-card">
+    <h4>효과크기 / 표준화된 그룹 차이 (standardized mean difference)</h4>
+    <p class="row"><b>쉬운 말:</b> 두 그룹(Pass/Fail) 평균이 "표준편차 몇 개만큼" 떨어져 있나. 단위가 제각각인 센서들을 같은 잣대로 비교하려고.</p>
+    <p class="row"><b>정확한 용어:</b> Cohen's d 계열의 효과크기. <code>d ≈ (μ_Fail − μ_Pass) / s</code>. 관례적으로 |0.2| 작음, |0.5| 중간, |0.8| 큼.</p>
+    <p class="row"><b>이 데이터에서:</b> <code>RF Load_std</code>의 효과크기 <span class="num">0.90</span>(Step 4) = Fail 그룹의 RF Load 산포가 Pass보다 약 0.9 표준편차 높다 → "중간~큰" 차이. 순위 매기기용으로 적절.</p>
+    <p class="row"><b>왜 t-test/p값을 안 썼나 (예상 질문):</b> ① 표본이 작다(Fail 웨이퍼 21개). ② 피처가 38개라 하나씩 검정하면 <strong>다중비교 문제</strong>(우연히 유의하게 나오는 게 생김) — Bonferroni 같은 보정이 필요하다. ③ 목적이 "유의성 판정"이 아니라 "어느 센서를 먼저 볼지 우선순위"라서, 보정 없이도 순위가 흔들리지 않는 효과크기가 더 실용적이었다. → <strong>발표에서 이렇게 답하면 된다.</strong></p>
+  </div>
+
+  <div class="kbd-card">
+    <h4>3σ 관리도 (3-sigma control chart, SPC)</h4>
+    <p class="row"><b>쉬운 말:</b> "정상일 때 이 값이 흔들리는 범위"를 평균 ± 3×표준편차로 긋고, 그 밖으로 나간 웨이퍼를 이상 후보로 본다.</p>
+    <p class="row"><b>정확한 용어:</b> 통계적 공정관리(SPC). 중심선 CL = 평균, 관리상한 UCL = CL + 3σ, 관리하한 LCL = CL − 3σ. 정규분포라면 정상값의 99.7%가 이 안에 들어온다.</p>
+    <p class="row"><b>이 데이터에서 어떻게:</b> 중심선·관리한계를 <strong>Pass 웨이퍼만으로</strong> 산정했다(이유: "정상 상태"의 흔들림 폭을 기준으로 삼아야 이탈이 의미 있다). <code>RF Load_std</code>의 Pass 평균 <span class="num">33.4</span>, UCL <span class="num">44.3</span>. 이 위로 나간 웨이퍼가 이상 후보.</p>
+    <p class="row"><b>전제조건과 이 데이터의 상태:</b> 관리도는 보통 ① 값이 정규분포에 가깝고 ② 부분군이 서로 독립이라고 가정한다. <code>RF Load_std</code>가 정규인지 <strong>확인하지 않았다</strong> — 표준편차 값은 원래 오른쪽으로 치우친 분포라, 하한(LCL)은 의미가 약하다(그래서 코드에서 음수면 0으로 잘랐다). 발표에서는 "상한 이탈만 신뢰하고, 정규성은 미확인 한계"라고 말하면 정직하다.</p>
+  </div>
+
+  <div class="kbd-card">
+    <h4>로지스틱 회귀 (logistic regression)</h4>
+    <p class="row"><b>쉬운 말:</b> 여러 센서값을 가중치로 조합해 "Fail일 확률"을 0~1로 내놓고, 0.5 넘으면 Fail이라 판정하는 모델.</p>
+    <p class="row"><b>정확한 용어:</b> 선형 결정경계를 갖는 분류기. 각 입력의 <strong>계수(coefficient)</strong>가 "그 센서가 커지면 Fail 확률이 어느 쪽으로 얼마나 밀리나"를 알려줘 <strong>해석이 쉽다</strong>.</p>
+    <p class="row"><b>왜 이걸 골랐나:</b> 계수를 엔지니어에게 바로 설명할 수 있어서. (랜덤포레스트·부스팅은 성능 상한은 높지만 웨이퍼 129개·Fail 21개로는 과적합 위험이 더 크다 — 그래서 1순위 후보로 두고, 넘는지 확인용으로만 뒤에 시도할 계획이었다.)</p>
+    <p class="row"><b>표준화가 왜 필수:</b> 센서 자릿수가 제각각이다(He Press ~100, TCP Load ~28,000). 표준화 안 하면 큰 숫자 센서가 계수를 지배한다. <code>StandardScaler</code>를 <strong>학습용에만 fit</strong>, 시험용엔 적용만 — 시험용 정보가 학습에 새는 걸 막으려고.</p>
+  </div>
+
+  <div class="kbd-card">
+    <h4>class_weight = 'balanced'</h4>
+    <p class="row"><b>쉬운 말:</b> Fail이 드무니까, 학습할 때 Fail 한 건을 여러 건인 것처럼 무겁게 쳐서 모델이 Fail에 더 신경 쓰게 한다.</p>
+    <p class="row"><b>정확한 용어:</b> 손실함수에서 클래스별 가중치 = <code>n_samples / (n_classes × 그 클래스 개수)</code>. 이번 학습용에서 Pass 0.59 : Fail 3.17.</p>
+    <p class="row"><b>이 데이터에서:</b> 재현율은 올랐지만(0→8.9% 행 단위) 정밀도·정확도가 크게 떨어졌다. 압축 모델에서도 스텝마다 효과가 갈렸다. <strong>만능 스위치가 아니라 재현율↔정밀도 맞바꿈 손잡이</strong>다.</p>
+  </div>
+
+  <div class="kbd-card">
+    <h4>층화추출 + 그룹 분할 (stratified group split)</h4>
+    <p class="row"><b>쉬운 말:</b> 학습용/시험용을 나눌 때 ① 양쪽의 Fail 비율을 똑같이 맞추고(층화), ② 같은 웨이퍼의 행이 양쪽에 동시에 들어가지 않게(그룹).</p>
+    <p class="row"><b>정확한 용어:</b> ① <code>stratify=label</code> — 작은 표본에서 시험용에 Fail이 0개가 되는 사고를 막는다. ② <code>wafer_id</code> 기준 분할 — <strong>데이터 누수(data leakage)</strong> 방지. 같은 웨이퍼의 다른 시점이 학습·시험에 걸쳐 있으면 모델이 "그 웨이퍼를 외운" 걸 실력으로 착각한다.</p>
+    <p class="row"><b>이 데이터에서:</b> 겹치는 웨이퍼 0개 확인 완료. 압축본(1행=1웨이퍼)에서는 그룹 분할이 필요 없어져서 일반 <code>train_test_split</code>만 씀.</p>
+  </div>
+
+  <div class="tier nogo">
+    <span class="t">지금 데이터로 주장 불가</span>
+    <p>
+      "이 관리도/모델이 <strong>실제 공정에서도</strong> 이 성능을 낸다" — 못 한다.
+      시험용 Fail이 스텝당 4개, 전체 Fail이 21개다. 교차검증도 안 했다.
+      성능 숫자(F1 0.33 등)는 <strong>이 특정 분할에서 나온 값</strong>이고, 분할을 바꾸면 흔들린다.
+    </p>
+  </div>
+  </div>
+</section>
+
+<!-- ============ 5. GRAPHS ============ -->
+<section id="graphs">
+  <span class="sectnum">05 — 그래프 읽는 법</span>
+  <h2>발표장에서 그래프를 직접 설명하는 법</h2>
+  <div class="reading">
+
+  <h3>박스플롯 (19-5) — Pass vs Fail, <code>RF Load_std</code> / <code>RF Tuner_std</code></h3>
+  <ol class="tight">
+    <li><strong>X축:</strong> 그룹 두 개 — Pass 웨이퍼 / Fail 웨이퍼.</li>
+    <li><strong>Y축:</strong> 그 웨이퍼 안에서 RF Load(또는 Tuner) 위치가 흔들린 정도(표준편차). 위로 갈수록 더 심하게 헌팅.</li>
+    <li><strong>상자·선:</strong> 상자 = 가운데 50%(25~75%), 상자 안 가로선 = 중앙값, 수염 = 대략적 범위, 점 = 이상치.</li>
+    <li><strong>먼저 볼 것:</strong> 두 상자가 <strong>세로로 얼마나 겹치나</strong>. 안 겹칠수록 그 센서가 Pass/Fail을 잘 가른다.</li>
+    <li><strong>실제 패턴:</strong> Fail 상자가 Pass보다 위쪽에 있고, Fail 쪽에 위로 튄 점이 몇 개 있다. 단 <strong>상자는 상당히 겹친다</strong> — 완벽한 구분선이 아니다.</li>
+    <li><strong>말할 수 있는 것:</strong> "Fail 웨이퍼는 평균적으로 RF 매칭이 더 흔들리는 경향이 있다."</li>
+    <li><strong>이 그래프만으로 말하면 안 되는 것:</strong> "RF Load 산포가 크면 Fail이다" (겹치는 구간이 커서 개별 웨이퍼 판정 불가) · "RF 매칭 흔들림이 불량의 <em>원인</em>이다" (상관관계일 뿐).</li>
+  </ol>
+
+  <h3>3σ 관리도 (19-5) — <code>RF Load_std</code>를 웨이퍼 순서로</h3>
+  <ol class="tight">
+    <li><strong>X축:</strong> 웨이퍼 순서(<code>wafer_id</code> 정렬). 대략 시간 순.</li>
+    <li><strong>Y축:</strong> 각 웨이퍼의 <code>RF Load_std</code>.</li>
+    <li><strong>점 색:</strong> 파랑 = Pass, 빨강 = Fail. <strong>초록 실선</strong> = 중심선(Pass 평균), <strong>빨간 점선</strong> = UCL/LCL(Pass 평균 ± 3σ).</li>
+    <li><strong>먼저 볼 것:</strong> 빨간 점선(UCL) <strong>위로</strong> 올라간 점이 무슨 색인지.</li>
+    <li><strong>실제 패턴:</strong> UCL 위로 나간 웨이퍼가 Step 4에서 5개 — 그중 4개가 빨강(진짜 Fail), 1개만 파랑(오탐). Step 5는 3개 모두 빨강. 반대로 <strong>UCL 아래 빨간 점이 많다</strong> — 관리도에 안 걸린 Fail이 대부분.</li>
+    <li><strong>말할 수 있는 것:</strong> "이 선을 넘으면 거의 진짜 이상이다(오탐 0~1건). 대신 이 선 하나로는 Fail의 14~19%밖에 못 잡는다."</li>
+    <li><strong>이 그래프만으로 말하면 안 되는 것:</strong> "이 관리도로 불량을 걸러낼 수 있다" (재현율이 너무 낮다 — 대부분 놓친다) · X축이 시간과 완전히 같지는 않으므로 "시간에 따른 드리프트"를 단정하면 안 된다(<code>wafer_id</code> 정렬 ≈ 시간이지 정확한 타임스탬프 아님).</li>
+  </ol>
+
+  <div class="tier interp">
+    <span class="t">두 그래프를 함께 보면</span>
+    <p>박스플롯은 "그룹 <em>경향</em>으로는 차이가 있다"를, 관리도는 "그 경향을 <em>판정 규칙</em>으로 바꾸면 정밀하지만 놓치는 게 많다"를 보여준다. 둘이 모순이 아니라, <strong>같은 사실의 두 측면</strong>이다.</p>
+  </div>
+  </div>
+</section>
+
+<!-- ============ 6. FAB ============ -->
+<section id="fab">
+  <span class="sectnum">06 — 공정 관점</span>
+  <h2>반도체 식각 공정 엔지니어의 눈으로</h2>
+  <div class="reading">
+  <p>
+    공정: <strong>Al 스택 식각</strong>(TiN / Al-0.5%Cu / TiN / 산화막). 순서는 가스·압력 안정화 → 플라즈마 점화 →
+    <strong>Step 4 = Al 주식각</strong> → <strong>Step 5 = TiN·산화막 오버에치</strong> → 챔버 벤트.
+    품질 지표는 Al 배선 선폭(linewidth), 웨이퍼 내 식각 균일도, 산화막 손실량.
+  </p>
+
+  <h3>왜 하필 RF 매칭계(Load·Tuner)의 산포가 신호로 잡혔나</h3>
+  <div class="tier interp">
+    <span class="t">합리적 해석 — 물리 기전</span>
+    <p>
+      RF/TCP 전원은 플라즈마라는 "변하는 부하"에 전력을 효율적으로 넣으려고
+      <strong>매칭 네트워크</strong>(가변 커패시터 = Tuner·Load 위치)를 실시간으로 조정한다.
+      가스·압력·파워 중 뭔가 규격을 벗어나면 플라즈마 임피던스가 이동하고,
+      매칭 네트워크가 새 최적점을 <strong>계속 쫓아다니면서(hunting)</strong> Tuner·Load 위치의 <em>런 내 표준편차</em>가 커진다.
+      그래서 "무엇이 틀어졌는지"는 몰라도 "매칭이 평소보다 흔들렸다"는 <strong>공통 증상</strong>이 남는다.
+    </p>
+  </div>
+
+  <h3><code>fault_type</code>과 대조한 결과 — 발표 후 질문 대비용</h3>
+  <p class="footnote">
+    아래는 네 노트북에 <strong>없는</strong> 분석이다. 원본 <code>lam_etch.csv</code>의 <code>fault_type</code>으로 내가 대조해 본 것.
+    "네 결론이 왜 맞는지, 그리고 재현율이 왜 낮은지"를 설명해 준다.
+  </p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>틀어놓은 변수 (개수)</th><th>네 상위 피처에 잡히나?</th><th>설명</th></tr></thead>
+    <tbody>
+      <tr><td><strong>압력</strong> (5)</td><td><span class="pill p">잘 잡힘</span></td><td>Pr +3 웨이퍼는 <code>RF Tuner_std</code>가 Pass 대비 <span class="num">+20σ</span>, <code>Pressure_std</code> <span class="num">+11σ</span>. 압력을 틀면 스로틀 밸브가 헌팅 + 임피던스 이동 → RF 매칭이 요동. <strong>관리도가 잡은 건 대부분 이 계열.</strong></td></tr>
+      <tr><td><strong>TCP 소스 파워</strong> (7)</td><td><span class="pill f">대부분 놓침</span></td><td>TCP +50조차 <code>RF Load_std</code>는 오히려 Pass보다 낮음. TCP 파워를 살짝 틀면 플라즈마 밀도는 변하지만 매칭 헌팅은 크지 않다. <code>TCP Top Pwr_mean</code>(평균값)을 봐야 잡히는데 네 상위 피처엔 없었다.</td></tr>
+      <tr><td><strong>RF 바이어스 파워</strong> (4)</td><td><span class="pill f">대부분 놓침</span></td><td>RF +8만 <code>RF Load_std</code>가 살짝 뜸. 나머지는 약함.</td></tr>
+      <tr><td><strong>Cl₂ / BCl₃ 유량</strong> (6)</td><td><span class="pill f">약함</span></td><td>유량 평균값(<code>Cl2 Flow_mean</code> 등)을 직접 봐야 잡히는데, 산포 기반 피처로는 약하게만 나온다.</td></tr>
+      <tr><td><strong>He 척 압력</strong> (1)</td><td><span class="pill f">놓침</span></td><td><code>He Press_mean</code> 차이가 거의 0. 웨이퍼 냉각 이상은 이 센서 세트로는 안 보임.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="tier fact">
+    <span class="t">데이터로 확인된 사실 — 이게 재현율 14~19%의 정체</span>
+    <p>
+      네 분석(산포 기반 관리도 + 효과크기)은 <strong>압력 계열 이상에 특화</strong>돼 있다.
+      TCP/RF 파워·가스 유량을 미세하게 틀어놓은 웨이퍼(21개 중 14개 이상)는 <strong>평균값을 봐야</strong> 잡히는데,
+      네 방법은 산포 위주라 그걸 못 잡았다. 그래서 재현율이 낮다 — 방법이 틀린 게 아니라 <strong>한 종류의 이상만 겨냥</strong>했기 때문.
+    </p>
+  </div>
+  <div class="tier hypo">
+    <span class="t">추가 검증이 필요한 가설 / 실무 다음 스텝</span>
+    <p>
+      파워·유량 계열 이상까지 잡으려면 <strong>평균값 기반 관리도</strong>(<code>TCP Top Pwr_mean</code>, <code>RF Pwr_mean</code>, <code>Cl2 Flow_mean</code>)를
+      산포 관리도와 <strong>나란히</strong> 걸어야 한다. 또는 논문(Wise 1999)이 쓴 <strong>다변량 방법(MPCA + Hotelling T² / SPE)</strong>으로
+      여러 센서를 한 번에 보는 게 정석. 이번 분석은 그 앞단계(어느 센서군이 중요한지 좁히기)를 한 셈.
+    </p>
+  </div>
+
+  <div class="tier nogo">
+    <span class="t">지금 데이터로 주장 불가 — 만들어내면 안 되는 말</span>
+    <ul class="tight" style="margin:.3em 0">
+      <li>"RF 매칭 네트워크가 <strong>고장났다</strong>" — 데이터는 매칭 <em>위치의 흔들림</em>만 보여준다. 실제 부품 이상은 장비 로그·PM 이력으로 확인해야 한다.</li>
+      <li>"압력 제어계가 불량이다" — Fail 웨이퍼는 <strong>일부러</strong> 압력을 틀어놓은 것이다. 장비 결함이 아니라 통제된 실험.</li>
+      <li>"이 센서가 불량의 원인이다" — <code>fault_type</code>을 봐도 "원인 변수"는 알지만, 네가 쓴 파일에는 그게 없으므로 네 분석의 결론은 "원인 <em>후보</em>를 RF 매칭·압력 쪽으로 좁혔다"까지다.</li>
+    </ul>
+  </div>
+  </div>
+</section>
+
+<!-- ============ 7. VALIDITY ============ -->
+<section id="valid">
+  <span class="sectnum">07 — 방법 타당성</span>
+  <h2>내가 한 분석 방법이 타당했나 — 냉정하게</h2>
+  <div class="reading">
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>분석 단계</th><th>평가</th><th>근거 / 한계</th></tr></thead>
+    <tbody>
+      <tr><td>−1 이상값을 0으로 교정</td><td><strong style="color:var(--fact)">적절함</strong></td><td>물리적으로 불가능한 값, 1건뿐. 원본 보존하고 새 파일로 저장.</td></tr>
+      <tr><td>Step 4 / 5 분리</td><td><strong style="color:var(--fact)">적절함</strong></td><td>공정 조건이 다른 두 스텝을 섞으면 "스텝 차이"와 "결함 차이"가 교란됨. 분리가 맞다.</td></tr>
+      <tr><td>행 단위 로지스틱 회귀</td><td><strong style="color:var(--nogo)">잘못된 적용</strong> (본인이 발견·폐기)</td><td>라벨은 웨이퍼 단위인데 입력은 시점 단위 → 신호 대 잡음비 붕괴. 16-5에서 직접 확인하고 버림. <strong>이건 감점이 아니라 "시행착오로 배운 과정"으로 발표하면 강점.</strong></td></tr>
+      <tr><td>웨이퍼 단위 평균+표준편차 압축</td><td><strong style="color:var(--fact)">적절함</strong></td><td>논문(Wise 1999)이 정확히 이 전처리를 논한다. FDC 표준. <span style="color:var(--hypo)">한계:</span> trajectory 모양·순간 스파이크 정보 손실. 웨이퍼당 시점 수가 최소 3개인 웨이퍼는 표준편차 신뢰도 낮음.</td></tr>
+      <tr><td>효과크기로 원인 후보 순위</td><td><strong style="color:var(--num)">사용 가능하나 한계</strong></td><td>표본 작음(Fail 21), 정규성·검정 미실시. 순위용으론 OK, "통계적으로 유의하다"는 말은 못 함.</td></tr>
+      <tr><td>3σ 관리도 (S 차트)</td><td><strong style="color:var(--fact)">적절함</strong></td><td>X̄-S 관리도의 S 차트에 해당. 정상(Pass) 기준으로 한계선 산정한 것도 맞다. <span style="color:var(--hypo)">한계:</span> 정규성 미확인, 단변량이라 다변량 이상 놓침.</td></tr>
+      <tr><td>class_weight='balanced' 비교</td><td><strong style="color:var(--fact)">적절함</strong></td><td>불균형 데이터에서 표준적으로 시도하는 것. 스텝마다 결과가 갈린 것도 정직하게 기록함.</td></tr>
+      <tr><td>교차검증(cross-validation) 없음</td><td><strong style="color:var(--num)">아쉬움</strong></td><td>시험용 Fail 4개라 성능 숫자가 불안정. 실무라면 StratifiedKFold로 흔들림 폭을 봐야 함. → 발표에서 한계로 언급.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="ok">
+    <p class="boxlabel">총평 — 처음부터 다시 할 필요 없음</p>
+    <p>
+      분석 뼈대는 타당하다. <strong>발표에서 고칠 것은 딱 하나 — "제품 불량 예측"이라는 프레이밍을 "공정 파라미터 이탈 탐지(FDC)"로 정정</strong>하는 것.
+      나머지(교차검증 없음, 정규성 미확인, 표본 작음)는 <strong>슬라이드 한 장에 "한계"로 모아서 먼저 말하면</strong> 충분하다.
+      오히려 "행 단위로 해봤다가 안 돼서 웨이퍼 단위로 바꿨다"는 시행착오가 분석을 이해하고 있다는 증거로 읽힌다.
+    </p>
+  </div>
+  </div>
+</section>
+
+<!-- ============ 8. INSIGHT ============ -->
+<section id="insight">
+  <span class="sectnum">08 — 인사이트 정리</span>
+  <h2>핵심 인사이트 — 관찰 → 근거 → 해석 → 공정적 의미 → 결론 → 한계</h2>
+  <div class="reading">
+
+  <h3>인사이트 A — 시점(행) 단위로는 신호가 없다</h3>
+  <div class="tablewrap"><table><tbody>
+    <tr><th>관찰된 현상</th><td>행 단위 로지스틱 회귀가 Fail을 거의 못 잡음 (F1 0~0.08)</td></tr>
+    <tr><th>분석 근거</th><td>16-5: 실제 Fail 행의 예측 확률 평균(0.055)이 전체 평균(0.124)보다 오히려 낮음</td></tr>
+    <tr><th>해석</th><td>라벨이 웨이퍼 단위라, 입력도 웨이퍼 단위로 맞춰야 신호 대 잡음비가 확보됨</td></tr>
+    <tr><th>공정적 의미</th><td>FDC는 원시 트레이스가 아니라 트레이스 요약통계(평균·표준편차)에 거는 게 정석 — 이 결과가 그걸 데이터로 재확인</td></tr>
+    <tr><th>결론</th><td><strong>웨이퍼 단위 압축이 필요하다</strong> (강하게 말해도 됨)</td></tr>
+    <tr><th>한계</th><td>압축은 순간 스파이크·트레이스 모양 정보를 버린다</td></tr>
+  </tbody></table></div>
+
+  <h3>인사이트 B — Fail의 흔적은 "평균"보다 "산포"에 남는다</h3>
+  <div class="tablewrap"><table><tbody>
+    <tr><th>관찰된 현상</th><td><code>RF Load_std</code>·<code>RF Tuner_std</code>·<code>Pressure_std</code>가 두 스텝 모두 Pass/Fail을 가장 크게 가름</td></tr>
+    <tr><th>분석 근거</th><td>19-4 효과크기 순위 (RF Load_std: Step4 0.90 / Step5 0.74, 둘 다 1위)</td></tr>
+    <tr><th>해석</th><td>Fail 웨이퍼는 런 도중 RF 매칭계·압력이 더 심하게 흔들렸다</td></tr>
+    <tr><th>공정적 의미</th><td>파라미터가 규격을 벗어나면 플라즈마 임피던스가 이동 → 매칭 네트워크가 헌팅 → 위치값 산포 증가 (공통 증상)</td></tr>
+    <tr><th>결론</th><td><strong>원인 후보를 RF 매칭계·압력 제어계 쪽으로 좁힐 수 있다</strong> (여기까지만)</td></tr>
+    <tr><th>한계</th><td>상관관계일 뿐. <code>fault_type</code> 대조 시, 이 신호는 <strong>압력 계열 이상에 편중</strong>됨 — TCP/RF 파워·유량 이상은 못 잡음</td></tr>
+    <tr><th>추가 검증</th><td>평균값 기반 관리도 병행, 또는 MPCA 같은 다변량 방법</td></tr>
+  </tbody></table></div>
+
+  <h3>인사이트 C — 단변량 관리도는 "정밀하지만 놓치는 게 많은" 도구</h3>
+  <div class="tablewrap"><table><tbody>
+    <tr><th>관찰된 현상</th><td><code>RF Load_std</code> 3σ 관리도: 오탐 0~1건인데 재현율 14~19%</td></tr>
+    <tr><th>분석 근거</th><td>19-5: Step4 UCL 이탈 5개 중 진짜 4개 / Step5 3개 중 3개</td></tr>
+    <tr><th>해석</th><td>"걸리면 거의 진짜"지만 대부분의 Fail은 이 선 아래에 있다</td></tr>
+    <tr><th>공정적 의미</th><td>1차 스크리닝(빠르고 오탐 적음)으로 쓰고, 다변량 모델을 보조로 병행하는 계층적 전략이 맞다</td></tr>
+    <tr><th>결론</th><td><strong>관리도를 1차 조기경보, 압축-로지스틱을 보조로</strong> (Step 10~11 추천)</td></tr>
+    <tr><th>한계</th><td>어떤 조합을 쓰든 Fail의 80%+는 여전히 놓친다 — Fail 표본 21개라는 근본 한계</td></tr>
+  </tbody></table></div>
+
+  <h3>인사이트 D — step4에서 결함 흔적이 더 뚜렷</h3>
+  <div class="tablewrap"><table><tbody>
+    <tr><th>관찰된 현상</th><td>상위 5개 피처의 효과크기: Step4 0.67~0.90 vs Step5 0.52~0.74. 압축모델 F1도 Step4가 높음</td></tr>
+    <tr><th>해석</th><td>Al 주식각(Step4)은 플라즈마 부하가 크고 파라미터 이탈이 매칭계에 더 크게 반영될 수 있음</td></tr>
+    <tr><th>결론</th><td><span style="color:var(--hypo)">가설 수준</span> — "Step4에서 더 뚜렷하다"까지. Fail 웨이퍼 개수는 두 스텝 동일(21개)</td></tr>
+    <tr><th>한계</th><td>시험 표본이 작아(스텝당 Fail 4개) F1 순위는 우연에 크게 좌우됨</td></tr>
+  </tbody></table></div>
+  </div>
+</section>
+
+<!-- ============ 9. PRESENTATION ============ -->
+<section id="present">
+  <span class="sectnum">09 — 발표용</span>
+  <h2>내일 발표 — 3분 요약 · 슬라이드 메시지 · 그래프 멘트 · 예상 질문</h2>
+  <div class="reading">
+
+  <h3>A. 3분 요약 (문제 → 방법 → 결과 → 공정 해석 → 결론)</h3>
+  <div class="script">
+    <p class="boxlabel">이대로 소리내어 연습</p>
+    <p><strong>[문제]</strong> "LAM 9600 식각 장비의 공개 이상탐지 데이터를 썼습니다. 정상 웨이퍼 108장과, 압력·RF 파워·TCP 파워·가스 유량 중 하나를 일부러 규격에서 벗어나게 설정한 웨이퍼 21장으로 되어 있습니다. 목표는 <strong>센서 신호만으로 규격을 벗어난 웨이퍼를 탐지</strong>하는 것입니다."</p>
+    <p><strong>[방법]</strong> "먼저 공정 조건이 다른 Step 4와 5를 분리했습니다. 처음엔 시점 단위로 로지스틱 회귀를 돌렸는데 Fail을 거의 못 잡았습니다. 확인해 보니 라벨은 웨이퍼 단위인데 입력은 한 순간이라 신호가 묻힌 거였습니다. 그래서 <strong>웨이퍼 한 장의 센서 기록을 평균과 표준편차로 압축</strong>해 다시 모델링하고, 추가로 3σ 관리도를 그렸습니다."</p>
+    <p><strong>[결과]</strong> "압축 후 F1이 0에서 0.3 수준으로 올랐습니다. 그리고 Pass와 Fail을 가장 크게 가르는 변수는 <strong>RF 매칭 네트워크(Load·Tuner)와 압력의 <em>표준편차</em></strong>였습니다 — 평균값이 아니라 <strong>런 도중 얼마나 흔들렸는지</strong>가 신호였습니다. RF Load 표준편차로 그린 관리도는 오탐이 0~1건으로 아주 정밀했지만, 잡아내는 비율은 14~19%로 낮았습니다."</p>
+    <p><strong>[공정 해석]</strong> "파라미터가 규격을 벗어나면 플라즈마 임피던스가 이동하고, 매칭 네트워크가 새 최적점을 계속 쫓아다니면서 위치값의 산포가 커집니다. 그래서 '무엇이 틀어졌는지'는 몰라도 '매칭이 흔들렸다'는 공통 증상이 남습니다."</p>
+    <p><strong>[결론]</strong> "① 시점 단위가 아니라 웨이퍼 단위 요약값으로 봐야 한다. ② 원인 후보는 RF 매칭계·압력 쪽으로 좁혀진다 — 단 상관관계까지입니다. ③ 관리도를 1차 경보, 다변량 모델을 보조로 쓰는 계층 전략을 제안합니다. 가장 큰 한계는 Fail 웨이퍼가 21장뿐이라는 표본 부족입니다."</p>
+  </div>
+
+  <h3>B. 슬라이드별 "딱 하나만 기억시킬 메시지"</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>슬라이드</th><th>청중이 가져갈 한 문장</th></tr></thead>
+    <tbody>
+      <tr><td>데이터 소개</td><td>"제품 불량이 아니라, <strong>공정 파라미터를 일부러 틀어놓은</strong> 이상탐지 벤치마크다."</td></tr>
+      <tr><td>전처리</td><td>"조건이 다른 두 식각 스텝을 <strong>분리</strong>해야 '스텝 차이'와 '결함 차이'가 안 섞인다."</td></tr>
+      <tr><td>행 단위 실패</td><td>"라벨이 웨이퍼 단위면 입력도 웨이퍼 단위여야 한다 — <strong>단위를 맞추는 게 먼저</strong>."</td></tr>
+      <tr><td>웨이퍼 압축 결과</td><td>"압축하니 F1이 0 → 0.3. 방향은 맞았지만 <strong>표본이 작아 아직 낮다</strong>."</td></tr>
+      <tr><td>효과크기 순위</td><td>"신호는 평균이 아니라 <strong>산포</strong>에 있다 — RF 매칭계가 얼마나 흔들렸는가."</td></tr>
+      <tr><td>관리도</td><td>"<strong>정밀하지만(오탐 0~1) 대부분 놓친다(재현율 14~19%)</strong> — 1차 경보용."</td></tr>
+      <tr><td>최종 전략</td><td>"관리도 = 1차 경보, 다변량 모델 = 보조, 드릴다운 = 원인 확인. <strong>3계층</strong>."</td></tr>
+      <tr><td>한계</td><td>"Fail 21장, 교차검증 없음, 상관관계까지 — <strong>인과는 장비 로그가 있어야</strong>."</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>C. 그래프 발표 멘트 (각 20~40초)</h3>
+  <div class="script">
+    <p class="boxlabel">박스플롯 (RF Load_std / RF Tuner_std, Pass vs Fail)</p>
+    <p>"X축은 Pass 그룹과 Fail 그룹, Y축은 그 웨이퍼 안에서 RF 매칭 위치가 흔들린 정도입니다. Fail 상자가 Pass보다 위에 있고 위로 튄 점도 있습니다 — Fail 웨이퍼가 평균적으로 더 흔들린다는 뜻입니다. 다만 <strong>두 상자가 상당히 겹칩니다</strong>. 그래서 이 변수 하나로 개별 웨이퍼를 판정하긴 어렵고, '경향의 차이'로 봐야 합니다."</p>
+  </div>
+  <div class="script">
+    <p class="boxlabel">3σ 관리도 (RF Load_std)</p>
+    <p>"X축은 웨이퍼 순서, Y축은 각 웨이퍼의 RF Load 표준편차입니다. 초록 선은 정상 웨이퍼들의 평균, 빨간 점선은 거기서 3표준편차 떨어진 관리상한입니다. 파란 점이 Pass, 빨간 점이 Fail이고요. <strong>상한을 넘은 웨이퍼가 Step 4에서 5개, 그중 4개가 진짜 Fail이고 오탐은 1개뿐입니다.</strong> 대신 상한 아래에도 빨간 점이 많죠 — 이 선 하나로는 Fail의 20%도 못 잡습니다. 그래서 '1차 경보'로만 쓰자는 겁니다."</p>
+  </div>
+  <div class="script">
+    <p class="boxlabel">모델 비교표 (행 단위 → 압축)</p>
+    <p>"왼쪽 세 열이 시점 단위 모델입니다. 정확도는 84%인데 F1이 0이에요 — Fail을 하나도 못 잡고 정확도만 높은, 전형적인 불균형 착시입니다. 오른쪽 압축 모델로 넘어가면 F1이 0.3 수준으로 올라옵니다. 큰 수는 아니지만, <strong>'입력 단위를 라벨에 맞추는 것'만으로 이만큼 바뀐다</strong>는 게 이 표의 핵심입니다."</p>
+  </div>
+
+  <h3>D. 예상 질문과 모범 답변</h3>
+
+  <p class="qgroup">기본 질문</p>
+  <details class="qa"><summary>이 데이터의 result는 어떻게 붙은 라벨인가요?</summary>
+  <div class="ans"><p>전기검사나 계측 불합격이 아닙니다. 원본이 정상 웨이퍼 108장과, 엔지니어가 TCP 파워·RF 파워·압력·가스 유량 중 하나를 규격에서 벗어나게 설정해 만든 21장으로 되어 있고, 그 21장에 Fail을 붙인 겁니다. 통제된 결함 실험이라 <strong>각 Fail 웨이퍼마다 '어떤 변수를 얼마나 틀었는지'가 정해져 있습니다.</strong></p></div></details>
+  <details class="qa"><summary>왜 Step 4와 5를 나눴나요?</summary>
+  <div class="ans"><p>Step 4는 Al 주식각, Step 5는 TiN·산화막 오버에치로 <strong>공정 조건 자체가 다릅니다.</strong> BCl3 유량·압력 평균이 스텝마다 달라요. 섞으면 모델이 '스텝이 달라서 나는 차이'와 '결함이라서 나는 차이'를 구별 못 합니다. 그래서 스텝별로 따로 분석했습니다.</p></div></details>
+  <details class="qa"><summary>정확도가 84%인데 왜 안 좋다고 하나요?</summary>
+  <div class="ans"><p>Fail이 16%밖에 안 돼서, 모든 웨이퍼를 Pass라고만 찍어도 정확도 84%가 나옵니다. 실제로 제 첫 모델이 정확도 84%인데 Fail을 하나도 못 잡았어요. 그래서 정확도 대신 <strong>재현율(실제 Fail 중 잡은 비율)·정밀도·F1</strong>으로 평가했습니다.</p></div></details>
+
+  <p class="qgroup">분석 방법 질문</p>
+  <details class="qa"><summary>왜 웨이퍼 단위로 평균·표준편차를 냈나요? 정보 손실 아닌가요?</summary>
+  <div class="ans"><p>맞습니다, 손실이 있습니다 — 순간 스파이크나 트레이스 모양은 사라집니다. 그런데 <strong>라벨이 웨이퍼 단위</strong>예요. 시점 단위로 넣으면 한 순간 값으로 웨이퍼 전체를 맞히는 셈이라 신호가 묻힙니다. 실제로 시점 단위 모델은 Fail 행에 오히려 더 낮은 확률을 줬어요. 그래서 입력을 라벨 단위에 맞춘 겁니다. 표준편차를 같이 넣어 '흔들림' 정보는 일부 살렸고요. 이건 이 데이터 논문(Wise 1999)에서도 논의하는 표준 전처리입니다.</p></div></details>
+  <details class="qa"><summary>왜 로지스틱 회귀인가요? 랜덤포레스트가 더 낫지 않나요?</summary>
+  <div class="ans"><p>성능 상한은 트리 계열이 높습니다. 그런데 웨이퍼가 129장, Fail이 21장이라 트리가 깊어지면 과적합 위험이 더 큽니다. 로지스틱 회귀는 <strong>계수를 보면 어떤 센서가 Fail 쪽으로 미는지 바로 설명</strong>돼서, 원인 추적이 목적인 이번 분석에 맞다고 봤습니다. 랜덤포레스트는 '1·2순위 기준을 넘는지' 확인용으로 뒤에 시도할 계획이었습니다.</p></div></details>
+  <details class="qa"><summary>이상치 제거 기준(−1을 0으로)은 왜 그렇게 정했나요?</summary>
+  <div class="ans"><p>TCP 반사전력은 챔버로 못 들어가고 되돌아온 전력이라 <strong>물리적으로 음수가 불가능</strong>합니다. 그 값이 딱 1건, −1이었어요. 계측 노이즈로 보고 0으로 바꿨습니다. 원본은 그대로 두고 새 파일로 저장해서, 수정 전후를 코드로 대조 확인했습니다.</p></div></details>
+  <details class="qa"><summary>왜 t-test나 p값이 아니라 효과크기를 썼나요?</summary>
+  <div class="ans"><p>세 가지 이유입니다. ① Fail 웨이퍼가 21개로 표본이 작습니다. ② 피처가 38개라 하나씩 검정하면 다중비교 문제가 생겨 Bonferroni 같은 보정이 필요합니다. ③ 제 목적이 '유의성 판정'이 아니라 '어느 센서를 먼저 볼지 우선순위'였습니다. 효과크기는 단위가 다른 센서들을 '표준편차 몇 개만큼 떨어졌나'로 같은 잣대로 비교해줘서 순위 매기기에 적합했습니다.</p></div></details>
+
+  <p class="qgroup">통계 질문</p>
+  <details class="qa"><summary>관리도의 3σ는 정규분포 가정인데, 이 데이터가 정규인지 확인했나요?</summary>
+  <div class="ans"><p>확인하지 못했습니다 — 한계입니다. 게다가 제가 쓴 건 <strong>표준편차 값</strong>이라 원래 오른쪽으로 치우친 분포예요. 그래서 관리하한(LCL)은 의미가 약하고 음수면 0으로 잘랐습니다. <strong>관리상한 이탈만 신뢰</strong>하고 봤습니다. 실무라면 정규성 검정을 하거나, 비모수적 관리한계(백분위수 기반)를 쓰는 게 맞습니다.</p></div></details>
+  <details class="qa"><summary>이 결과가 통계적으로 유의하다는 근거가 있나요?</summary>
+  <div class="ans"><p>엄밀한 유의성 검정은 하지 않았습니다. 제가 말할 수 있는 건 <strong>효과크기가 크다</strong>(RF Load_std 약 0.9 표준편차)와 <strong>관리도 이탈의 대부분이 실제 Fail이다</strong>(Step5는 이탈 3개 전부)까지입니다. 시험 표본이 스텝당 Fail 4개라, F1 같은 성능 숫자는 우연에 크게 흔들릴 수 있다는 걸 전제로 봐야 합니다.</p></div></details>
+  <details class="qa"><summary>상관관계와 인과관계를 구분했나요?</summary>
+  <div class="ans"><p>네, 그게 이 분석의 핵심 한계입니다. 제가 쓴 파일에는 '어떤 변수를 틀었는지'가 없어서, 제 결론은 <strong>'RF 매칭계·압력의 산포가 Fail과 같이 움직인다'</strong>까지입니다. 'RF 매칭 흔들림이 불량의 원인'이라고는 말하지 않습니다. 원인 확정은 장비 로그·PM 이력·드릴다운 분석이 있어야 합니다.</p></div></details>
+  <details class="qa"><summary>교차검증은 왜 안 했나요?</summary>
+  <div class="ans"><p>안 한 게 맞고, 아쉬운 부분입니다. 시험용 Fail이 4개뿐이라 한 번의 분할 결과에 의존하고 있습니다. 실무라면 StratifiedKFold로 여러 번 나눠 성능의 <strong>평균과 흔들림 폭</strong>을 함께 봐야 합니다. 이번엔 그 앞단계(어느 방법·어느 센서가 유망한지 좁히기)에 집중했습니다.</p></div></details>
+
+  <p class="qgroup">반도체 공정 질문</p>
+  <details class="qa"><summary>왜 RF Load·Tuner의 표준편차가 신호로 나왔나요?</summary>
+  <div class="ans"><p>RF Load·Tuner는 RF 전원과 플라즈마 사이 임피던스를 맞추는 매칭 네트워크의 위치값입니다. 가스·압력·파워 중 뭔가 규격을 벗어나면 플라즈마 임피던스가 이동하고, 매칭 네트워크가 새 최적점을 <strong>계속 쫓아다니면서 위치값의 산포가 커집니다.</strong> 그래서 무엇이 틀어졌는지 몰라도 '매칭이 평소보다 흔들렸다'는 공통 증상이 남습니다.</p></div></details>
+  <details class="qa"><summary>재현율이 14~19%면 실무에서 쓸 수 있나요?</summary>
+  <div class="ans"><p>단독으로는 못 씁니다. 하지만 <strong>오탐이 0~1건</strong>이라 '1차 스크리닝'으로는 가치가 있습니다 — 걸리면 거의 진짜니까 바로 홀드하고 확인하면 됩니다. 나머지는 다변량 모델이 보완하는 계층 구조를 제안했습니다. 그리고 제 방법이 놓친 건 주로 TCP·RF 파워 계열 이상인데, 그건 <strong>산포가 아니라 평균값</strong>을 봐야 잡혀서, 평균 기반 관리도를 나란히 걸면 개선됩니다.</p></div></details>
+  <details class="qa"><summary>실무라면 다음에 어떤 데이터를 확인하겠습니까?</summary>
+  <div class="ans"><p>① 장비 로그와 PM 이력 — 매칭 네트워크·스로틀 밸브에 실제 이상이 있었는지. ② 엔드포인트(Endpt A) 트레이스 모양 — 식각 종료 시점이 밀렸는지. ③ 계측 결과(선폭·균일도) — 센서 이상이 실제 품질로 이어졌는지. ④ 더 많은 Fail 데이터 — 21장으로는 어떤 모델을 써도 한계가 명확합니다.</p></div></details>
+
+  <p class="qgroup">한계를 찌르는 질문</p>
+  <details class="qa"><summary>이 분석의 가장 큰 한계는 무엇입니까?</summary>
+  <div class="ans"><p>세 가지입니다. ① <strong>표본</strong> — Fail 웨이퍼 21장, 시험용 4장. 성능 숫자가 불안정합니다. ② <strong>프레이밍</strong> — 이건 통제된 실험 데이터라, 실제 라인의 자연 발생 불량과는 다릅니다. ③ <strong>상관관계</strong> — 제가 쓴 파일에는 원인 변수가 없어서 '후보를 좁혔다'까지만 말할 수 있습니다. 이 셋을 알고 결론의 강도를 조절했습니다.</p></div></details>
+  <details class="qa"><summary>결국 어떤 모델도 Fail의 80%를 놓치는데, 이 분석의 의의가 뭔가요?</summary>
+  <div class="ans"><p>의의는 '성능 좋은 모델을 만들었다'가 아니라 <strong>'무엇을 봐야 하는지를 좁혔다'</strong>입니다. ① 시점이 아니라 웨이퍼 단위로 봐야 한다는 것, ② 평균이 아니라 산포가 신호라는 것, ③ 원인 후보가 RF 매칭·압력 쪽이라는 것, ④ 단변량으로는 한 종류 이상만 잡히니 다변량이 필요하다는 것. 이건 다음 분석의 출발점이 됩니다. 표본이 21개인 상태에서 높은 성능을 기대하는 것 자체가 무리입니다.</p></div></details>
+  <details class="qa"><summary>step4가 더 뚜렷하다는 결론, 신뢰할 수 있나요?</summary>
+  <div class="ans"><p>강하게는 못 합니다. 효과크기 상위권(Step4 0.67~0.90 vs Step5 0.52~0.74)과 압축모델 F1(0.33 vs 0.29)이 같은 방향을 가리키지만, 시험용 Fail이 스텝당 4개라 <strong>1개 차이로 순위가 뒤집힐 수 있습니다.</strong> 그래서 '가설 수준'으로 제시하고, 물리적으로는 'Al 주식각이 플라즈마 부하가 커서 파라미터 이탈이 더 크게 반영될 수 있다'는 설명을 덧붙입니다.</p></div></details>
+  </div>
+</section>
+
+<!-- ============ 10. CRAM ============ -->
+<section id="cram">
+  <span class="sectnum">10 — 시험 직전 요약</span>
+  <h2>이것만은 알고 발표하기</h2>
+  <div class="reading">
+
+  <h3>반드시 이해해야 하는 개념 7가지</h3>
+
+  <div class="kbd-card">
+    <h4>1. FDC (Fault Detection &amp; Classification)</h4>
+    <p class="row"><b>한 줄 정의:</b> 센서 데이터로 설비·공정이 정상 상태를 벗어났는지 탐지하는 것.</p>
+    <p class="row"><b>이번 분석에서:</b> result=Fail은 제품 불량이 아니라 '파라미터가 규격을 벗어난 런'. 이건 FDC 문제다.</p>
+    <p class="row"><b>물어보면:</b> "제품 불량 예측이 아니라, 공정이 규격을 벗어난 웨이퍼를 센서로 탐지하는 문제입니다."</p>
+  </div>
+  <div class="kbd-card">
+    <h4>2. 불균형 데이터 · 정확도 착시</h4>
+    <p class="row"><b>한 줄 정의:</b> 소수 클래스가 드물면 정확도가 검출력을 못 보여준다.</p>
+    <p class="row"><b>이번 분석에서:</b> Fail 16%. 기준 모델(전부 Pass) 정확도 0.844. 재현율·정밀도·F1로 봐야 한다.</p>
+    <p class="row"><b>물어보면:</b> "전부 Pass로 찍어도 84%라, 정확도가 아니라 재현율·정밀도로 평가했습니다."</p>
+  </div>
+  <div class="kbd-card">
+    <h4>3. 표본 단위 ↔ 라벨 단위 일치</h4>
+    <p class="row"><b>한 줄 정의:</b> 입력의 단위가 정답의 단위와 같아야 신호가 산다.</p>
+    <p class="row"><b>이번 분석에서:</b> 라벨은 웨이퍼 단위인데 행 단위로 넣어서 실패 → 웨이퍼당 평균·표준편차로 압축.</p>
+    <p class="row"><b>물어보면:</b> "시점 하나로 웨이퍼 전체를 맞히려니 신호가 묻혔습니다. 입력을 웨이퍼 단위로 요약했습니다."</p>
+  </div>
+  <div class="kbd-card">
+    <h4>4. within-wafer 표준편차 = "산포가 신호"</h4>
+    <p class="row"><b>한 줄 정의:</b> 그 웨이퍼가 식각되는 동안 센서값이 얼마나 흔들렸는지.</p>
+    <p class="row"><b>이번 분석에서:</b> RF Load·Tuner·Pressure의 <em>표준편차</em>가 Pass/Fail을 가장 크게 갈랐다 (평균 아님).</p>
+    <p class="row"><b>물어보면:</b> "평균값이 아니라 런 도중의 흔들림이 결함의 흔적이었습니다 — RF 매칭계 헌팅."</p>
+  </div>
+  <div class="kbd-card">
+    <h4>5. 효과크기 (standardized gap)</h4>
+    <p class="row"><b>한 줄 정의:</b> 두 그룹 평균 차이 ÷ 표준편차. "표준편차 몇 개만큼 떨어졌나."</p>
+    <p class="row"><b>이번 분석에서:</b> 단위 다른 38개 피처를 같은 잣대로 순위 매기려고 사용. RF Load_std ≈ 0.9 (중간~큰).</p>
+    <p class="row"><b>물어보면:</b> "표본이 작고 피처가 많아 p값 대신 효과크기로 우선순위만 매겼습니다."</p>
+  </div>
+  <div class="kbd-card">
+    <h4>6. 3σ 관리도 (SPC, X̄-S의 S 차트)</h4>
+    <p class="row"><b>한 줄 정의:</b> 정상 상태의 흔들림 범위(평균 ± 3σ)를 긋고 벗어난 것을 이상 후보로 본다.</p>
+    <p class="row"><b>이번 분석에서:</b> 한계선을 Pass 웨이퍼만으로 산정. 오탐 0~1건, 재현율 14~19%.</p>
+    <p class="row"><b>물어보면:</b> "정밀하지만 놓치는 게 많은 도구라, 1차 경보로 쓰고 다변량 모델로 보완합니다."</p>
+  </div>
+  <div class="kbd-card">
+    <h4>7. 데이터 누수 방지 (그룹 분할 + train-only scaling)</h4>
+    <p class="row"><b>한 줄 정의:</b> 시험용 정보가 학습에 새어들면 성능이 부풀려진다.</p>
+    <p class="row"><b>이번 분석에서:</b> 같은 웨이퍼 행이 학습·시험에 안 섞이게 wafer_id 기준 분할. StandardScaler는 학습용만 fit.</p>
+    <p class="row"><b>물어보면:</b> "같은 웨이퍼의 다른 시점이 양쪽에 걸치면 모델이 그 웨이퍼를 외운 걸 실력으로 착각합니다."</p>
+  </div>
+
+  <h3>반드시 기억해야 하는 숫자</h3>
+  <div class="big-num"><span class="v">129</span><span class="d"><b>웨이퍼 수 (정상 108 · 결함 21)</b><span>분석의 진짜 표본 크기. "12,829행"은 시점 수일 뿐. Fail 21개가 모든 한계의 근원.</span></span></div>
+  <div class="big-num"><span class="v">16.3%</span><span class="d"><b>Fail 웨이퍼 비율 (21/129)</b><span>불균형. 기준 모델(전부 Pass) 정확도가 83.7%라 정확도는 무의미.</span></span></div>
+  <div class="big-num"><span class="v">0 → 0.33</span><span class="d"><b>F1: 행 단위 → 웨이퍼 압축 (Step 4)</b><span>"입력 단위를 라벨에 맞춘 것"만으로 생긴 변화. 절대값은 아직 낮음.</span></span></div>
+  <div class="big-num"><span class="v">0.90</span><span class="d"><b>RF Load_std의 효과크기 (Step 4, 1위)</b><span>Fail 그룹의 RF 매칭 산포가 Pass보다 약 0.9 표준편차 높다 = 중간~큰 차이.</span></span></div>
+  <div class="big-num"><span class="v">4 / 21</span><span class="d"><b>RF Load_std 관리도가 잡은 Fail (Step 4), 오탐 1</b><span>Step 5는 3/21, 오탐 0. "정밀하지만 놓치는 게 많다"의 근거.</span></span></div>
+  <div class="big-num"><span class="v">0.055 vs 0.124</span><span class="d"><b>16-5: 실제 Fail 행 vs 전체 행의 예측 확률</b><span>Fail 행이 오히려 더 낮다 = 시점 단위에 신호 없음의 직접 증거.</span></span></div>
+
+  <h3>반드시 기억해야 하는 결론 (3개)</h3>
+  <ol class="tight">
+    <li><strong>시점이 아니라 웨이퍼 단위로 봐야 한다</strong> — 라벨이 웨이퍼 단위라 시점 단위 입력은 신호가 묻힌다. (데이터로 확인됨, 강하게 말해도 됨)</li>
+    <li><strong>결함의 흔적은 평균이 아니라 산포에 남는다 — RF 매칭계·압력 쪽</strong> — 원인 후보를 여기로 좁힐 수 있다. 단 상관관계까지이고, <code>fault_type</code> 대조 시 이 신호는 압력 계열에 편중된다. (합리적 해석)</li>
+    <li><strong>관리도(1차 경보) + 다변량 모델(보조) + 드릴다운(원인 확인)의 3계층 전략</strong> — 어떤 방법도 Fail의 80%+를 놓치는데, 이건 Fail 21장이라는 표본 한계이지 방법의 문제가 아니다. (제안 + 정직한 한계)</li>
+  </ol>
+
+  <hr>
+  <p class="footnote">
+    발표 하루 전 체크: ① "제품 불량"이라는 말을 "공정 파라미터 이탈(FDC)"로 바꿨나 · ② 한계 슬라이드를 앞쪽에 배치했나 ·
+    ③ 상관/인과를 매번 구분해서 말하고 있나 · ④ 숫자를 말할 때 "이건 이렇게 읽으면 됩니다"를 붙이고 있나.
+  </p>
+  </div>
+</section>
+
+</main>
+</div>
